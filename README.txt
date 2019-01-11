@@ -3,7 +3,7 @@ Contributors: leapspark
 Tags: sentry, debugging, logging, errors, error handling
 Requires at least: 3.0.1
 Tested up to: 5.0.3
-Stable tag: 1.1.4
+Stable tag: 1.1.6
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -34,6 +34,10 @@ All three are accessible on the plugin settings page located in the `Settings ->
 Alternatively, search for `ferret` in the plugin directory through the WordPress plugin admin dashboard.
 
 == Changelog ==
+
+= 1.1.5 =
+* Fixed some issues related to file naming
+* Sorted out some kinks with adjusting to svn workflow 
 
 = 1.0.0 =
 * Initial commit
