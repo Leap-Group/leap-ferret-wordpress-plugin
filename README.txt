@@ -26,9 +26,12 @@ All three are accessible on the plugin settings page located in the `Settings ->
 
 == Installation ==
 
-1. Upload `wordpress-sentry.php` to the `/wp-content/plugins/` directory
+1. Download the plugin
+1. Upload the `ferret` directory to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Go to the settings page through `Settings -> Ferret Settings` and enter your Sentry DSN and Project ID
+
+Alternatively, search for `ferret` in the plugin directory through the WordPress plugin admin dashboard.
 
 == Changelog ==
 
