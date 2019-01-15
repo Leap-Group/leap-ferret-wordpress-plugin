@@ -30,7 +30,7 @@ class Ferret_i18n {
 	 */
 	public function load_plugin_textdomain() {
 		load_plugin_textdomain(
-			'ferret',
+			'wordpress-sentry',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);
