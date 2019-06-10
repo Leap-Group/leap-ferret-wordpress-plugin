@@ -177,7 +177,7 @@ class Ferret_Admin {
                 name="<?php echo $this->plugin_name . '[' . $this->options->dsn_field_name; ?>]"
                 id="<?php echo $this->plugin_name . '-' . $this->options->dsn_field_name; ?>"
                 type="text"
-                value="<?php echo $value ?? ''; ?>"
+                value="<?php echo isset( $value ) ? $value : ''; ?>"
             />
         </div>
         <?php
@@ -235,7 +235,7 @@ class Ferret_Admin {
                 name="<?php echo $this->plugin_name . '[' . $this->options->project_field_name; ?>]"
                 id="<?php echo $this->plugin_name . '-' . $this->options->project_field_name; ?>"
                 type="text"
-                value="<?php echo $value ?? ''; ?>"
+                value="<?php echo isset( $value ) ? $value : ''; ?>"
             />
         </div>
         <?php
