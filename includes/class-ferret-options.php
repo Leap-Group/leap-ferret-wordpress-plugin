@@ -86,6 +86,6 @@ final class Ferret_Options {
     public function get( $key ) {
         $options = get_option( $this->plugin_name );
 
-        return $options[ $key ] ?? false;
+        return isset( $options[ $key ] ) ? $options[ $key ] : false;
     }
 }
