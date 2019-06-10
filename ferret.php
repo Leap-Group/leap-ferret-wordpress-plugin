@@ -9,7 +9,7 @@
  * Plugin Name:       Ferret
  * Plugin URI:        https://wordpress.org/plugins/ferret
  * Description:       Reports all errors to the Sentry error logging service automatically.
- * Version:           1.0.4
+ * Version:           1.2.4
  * Author:            Aaron Arney
  * Author URI:        https://leapsparkagency.com
  * License:           GPL-2.0+
@@ -24,10 +24,10 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * == :: WHAT'S THIS? :: ==========
- * We want to use PHP 7 or greater. If the version isn't sufficient we show an error and then deactivate/prevent the
+ * We want to use PHP 5.6 or greater. If the version isn't sufficient we show an error and then deactivate/prevent the
  * plugin from being activated.
  */
-if ( ! version_compare( phpversion(), '7.0', '>=' ) ) {
+if ( ! version_compare( phpversion(), '5.6', '>=' ) ) {
 
     add_action( 'admin_init', function () {
         deactivate_plugins( plugin_basename( __FILE__ ) );
@@ -36,7 +36,7 @@ if ( ! version_compare( phpversion(), '7.0', '>=' ) ) {
     add_action( 'admin_notices', function () {
         ?>
         <div class="notice notice-error is-dismissible">
-            <p><?php _e( 'Ferret is not compatible with your version of PHP. You need at least PHP 7.0 or greater.',
+            <p><?php _e( 'Ferret is not compatible with your version of PHP. You need at least PHP 5.6 or greater.',
                     'Ferret' ); ?></p>
         </div>
         <?php
@@ -50,7 +50,7 @@ if ( ! version_compare( phpversion(), '7.0', '>=' ) ) {
 
     require_once __DIR__ . '/vendor/autoload.php';
 
-    define( 'FERRET_VERSION', '1.0.4' );
+    define( 'FERRET_VERSION', '1.2.4' );
 
     function activate_wordpress_sentry() {
         require_once plugin_dir_path( __FILE__ ) . 'includes/class-ferret-activator.php';
@@ -69,11 +69,13 @@ if ( ! version_compare( phpversion(), '7.0', '>=' ) ) {
 
     /**
      * Begins execution of the plugin.
+     *
      * @since    1.0.0
      */
     function run_ferret() {
         $plugin = new Ferret();
         $plugin->run();
     }
+
     run_ferret();
 }
