@@ -9,7 +9,7 @@
  * Plugin Name:       Ferret
  * Plugin URI:        https://wordpress.org/plugins/ferret
  * Description:       Reports all errors to the Sentry error logging service automatically.
- * Version:           1.2.4
+ * Version:           1.2.5
  * Author:            Aaron Arney
  * Author URI:        https://leapsparkagency.com
  * License:           GPL-2.0+
@@ -50,7 +50,7 @@ if ( ! version_compare( phpversion(), '5.6', '>=' ) ) {
 
     require_once __DIR__ . '/vendor/autoload.php';
 
-    define( 'FERRET_VERSION', '1.2.4' );
+    define( 'FERRET_VERSION', '1.2.5' );
 
     function activate_wordpress_sentry() {
         require_once plugin_dir_path( __FILE__ ) . 'includes/class-ferret-activator.php';
