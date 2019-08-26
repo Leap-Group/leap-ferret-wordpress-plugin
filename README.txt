@@ -3,7 +3,7 @@ Contributors: leapspark
 Tags: sentry, debugging, logging, errors, error handling
 Requires at least: 3.0.1
 Tested up to: 5.2.2
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -31,6 +31,12 @@ All three are accessible on the plugin settings page located in the `Settings ->
 1. Go to the settings page through `Settings -> Ferret Settings` and enter your Sentry DSN and Project ID
 
 == Changelog ==
+
+= 1.2.6 =
+* Add WordPress.org assets
+
+= 1.2.5 =
+* Adding Github Actions workflow
 
 = 1.2.4 =
 * Remove ?? operators
