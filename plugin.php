@@ -37,7 +37,7 @@ if ( ! version_compare( phpversion(), '7.1', '>=' ) ) {
         ?>
         <div class="notice notice-error is-dismissible">
             <p><?php _e( 'Ferret is not compatible with your version of PHP. You need at least PHP 7.1 or greater.',
-                    'Ferret' ); ?></p>
+                    FERRET_PLUGIN_NAME ); ?></p>
         </div>
         <?php
 
