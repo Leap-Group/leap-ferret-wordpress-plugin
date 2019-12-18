@@ -10,6 +10,12 @@
  * @subpackage Ferret/admin
  */
 
+namespace Ferret;
+
+if ( ! defined( 'WPINC' ) ) {
+    die;
+}
+
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -20,32 +26,10 @@
  * @subpackage Ferret/admin
  * @author     Aaron Arney <aarney@leapsparkagency.com>
  */
-class Ferret_Admin {
+final class Admin {
 
     /**
-     * The ID of this plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      string    $plugin_name    The ID of this plugin.
-     */
-    private $plugin_name;
-
-    /**
-     * The version of this plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      string    $version    The current version of this plugin.
-     */
-    private $version;
-
-    /**
-     * The options instance
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      Ferret_Options $options An instance of the options class.
+     * @var Options
      */
     private $options;
 
@@ -54,13 +38,9 @@ class Ferret_Admin {
      *
      * @since  1.0.0
      *
-     * @param  string         $plugin_name The name of this plugin.
-     * @param  string         $version     The version of this plugin.
-     * @param  Ferret_Options $options     An instance of the options class
+     * @param  Options $options     An instance of the options class
      */
-    public function __construct( $plugin_name, $version, $options ) {
-        $this->plugin_name = $plugin_name;
-        $this->version = $version;
+    public function __construct( Options $options ) {
         $this->options = $options;
     }
 
@@ -75,11 +55,18 @@ class Ferret_Admin {
         $valid = array();
         $data = filter_var_array( $_POST, FILTER_SANITIZE_STRING );
 
-        $valid[$this->options->dsn_field_name] = trim( esc_html(
-                $data[$this->plugin_name][$this->options->dsn_field_name] ) );
-        $valid[$this->options->project_field_name] = trim( esc_html( $data[$this->plugin_name][$this->options->project_field_name] ) );
-        $valid[$this->options->enable_js_field_name] = (bool) $data[$this->plugin_name][$this->options->enable_js_field_name];
-        $valid[$this->options->environment_field_name] = (bool) $data[$this->plugin_name][$this->options->environment_field_name];
+        $project = $data[ FERRET_PLUGIN_NAME ][ $this->options->project_field_name ] ?? '';
+        $dsn     = $data[ FERRET_PLUGIN_NAME ][ $this->options->dsn_field_name ] ?? '';
+
+        $ignore_core       = $data[ FERRET_PLUGIN_NAME ][ $this->options->ignore_core_field_name ] ?? false;
+        $enable_js_logging = $data[ FERRET_PLUGIN_NAME ][ $this->options->enable_js_field_name ] ?? false;
+        $environment       = $data[ FERRET_PLUGIN_NAME ][ $this->options->environment_field_name ] ?? false;
+
+        $valid[ $this->options->dsn_field_name ]         = trim( $dsn );
+        $valid[ $this->options->project_field_name ]     = trim( $project );
+        $valid[ $this->options->ignore_core_field_name ] = (bool) $ignore_core;
+        $valid[ $this->options->enable_js_field_name ]   = (bool) $enable_js_logging;
+        $valid[ $this->options->environment_field_name ] = (bool) $environment;
 
         return $valid;
     }
@@ -91,10 +78,10 @@ class Ferret_Admin {
      */
     public function add_admin_menu() {
         add_options_page(
-            'Ferret Settings',
-            'Ferret Settings',
+            __( 'Ferret Settings', FERRET_PLUGIN_NAME ),
+            __( 'Ferret Settings', FERRET_PLUGIN_NAME ),
             'manage_options',
-            'Ferret',
+            FERRET_PLUGIN_NAME,
             array( $this, 'options_page' )
         );
     }
@@ -105,7 +92,7 @@ class Ferret_Admin {
      * @since 1.0.0
      */
     public function options_page() {
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/ferret-admin-display.php';
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/admin-view.php';
     }
 
     /**
@@ -116,49 +103,57 @@ class Ferret_Admin {
     public function settings_init() {
         register_setting(
             'settingsPage',
-            $this->plugin_name,
+            FERRET_PLUGIN_NAME,
             array(
                 'sanitize_callback' => array( $this, 'validate_settings' ),
             )
         );
 
         add_settings_section(
-            $this->plugin_name . '_settingsPage_section',
-            __( 'General Options', 'Ferret' ),
+            FERRET_PLUGIN_NAME . '_settingsPage_section',
+            __( 'General Options', FERRET_PLUGIN_NAME ),
             null,
             'settingsPage'
         );
 
         add_settings_field(
             $this->options->dsn_field_name,
-            __( 'Sentry DSN', 'Ferret' ),
+            __( 'Sentry DSN', FERRET_PLUGIN_NAME ),
             array( $this, 'dsn_render' ),
             'settingsPage',
-            $this->plugin_name . '_settingsPage_section'
+            FERRET_PLUGIN_NAME . '_settingsPage_section'
         );
 
         add_settings_field(
             $this->options->project_field_name,
-            __( 'Sentry Project ID', 'Ferret' ),
+            __( 'Sentry Project ID', FERRET_PLUGIN_NAME ),
             array( $this, 'project_render' ),
             'settingsPage',
-            $this->plugin_name . '_settingsPage_section'
+            FERRET_PLUGIN_NAME . '_settingsPage_section'
+        );
+
+        add_settings_field(
+            $this->options->ignore_core_field_name,
+            __( 'Ignore WP Core Errors', FERRET_PLUGIN_NAME ),
+            array( $this, 'ignore_core_render' ),
+            'settingsPage',
+            FERRET_PLUGIN_NAME . '_settingsPage_section'
         );
 
         add_settings_field(
             $this->options->enable_js_field_name,
-            __( 'Enable JS Logging', 'Ferret' ),
+            __( 'Enable JS Logging', FERRET_PLUGIN_NAME ),
             array( $this, 'enable_js_render' ),
             'settingsPage',
-            $this->plugin_name . '_settingsPage_section'
+            FERRET_PLUGIN_NAME . '_settingsPage_section'
         );
 
         add_settings_field(
             $this->options->environment_field_name,
-            __( 'Debug Environment', 'Ferret' ),
+            __( 'Debug Environment', FERRET_PLUGIN_NAME ),
             array( $this, 'environment_render' ),
             'settingsPage',
-            $this->plugin_name . '_settingsPage_section'
+            FERRET_PLUGIN_NAME . '_settingsPage_section'
         );
     }
 
@@ -174,8 +169,8 @@ class Ferret_Admin {
         <div class="control">
             <input
                 class="input"
-                name="<?php echo $this->plugin_name . '[' . $this->options->dsn_field_name; ?>]"
-                id="<?php echo $this->plugin_name . '-' . $this->options->dsn_field_name; ?>"
+                name="<?php echo FERRET_PLUGIN_NAME . '[' . $this->options->dsn_field_name; ?>]"
+                id="<?php echo FERRET_PLUGIN_NAME . '-' . $this->options->dsn_field_name; ?>"
                 type="text"
                 value="<?php echo isset( $value ) ? $value : ''; ?>"
             />
@@ -190,11 +185,12 @@ class Ferret_Admin {
      */
     public function enable_js_render() {
         $value = esc_html( $this->options->get( $this->options->enable_js_field_name ) );
+
         ?>
         <div class="control">
             <input type="checkbox"
-                   name="<?php echo $this->plugin_name . '[' . $this->options->enable_js_field_name;?>]"
-                   id="<?php echo $this->plugin_name . '-' .$this->options->enable_js_field_name;?>"
+                   name="<?php echo FERRET_PLUGIN_NAME . '[' . $this->options->enable_js_field_name;?>]"
+                   id="<?php echo FERRET_PLUGIN_NAME . '-' .$this->options->enable_js_field_name;?>"
                    value="1"
                 <?php checked( '1', $value ); ?>
             />
@@ -209,11 +205,12 @@ class Ferret_Admin {
      */
     public function environment_render() {
         $value = esc_html( $this->options->get( $this->options->environment_field_name ) );
+
         ?>
         <div class="control">
             <input type="checkbox"
-                   name="<?php echo $this->plugin_name . '[' . $this->options->environment_field_name;?>]"
-                   id="<?php echo $this->plugin_name . '-' .$this->options->environment_field_name;?>"
+                   name="<?php echo FERRET_PLUGIN_NAME . '[' . $this->options->environment_field_name;?>]"
+                   id="<?php echo FERRET_PLUGIN_NAME . '-' .$this->options->environment_field_name;?>"
                    value="1"
                 <?php checked( '1', $value ); ?>
             />
@@ -222,18 +219,38 @@ class Ferret_Admin {
     }
 
     /**
+     * Render the environment field
+     *
+     * @since 1.0.0
+     */
+    public function ignore_core_render() {
+        $value = esc_html( $this->options->get( $this->options->ignore_core_field_name ) );
+
+        ?>
+        <div class="control">
+            <input type="checkbox"
+                   name="<?php echo FERRET_PLUGIN_NAME . '[' . $this->options->ignore_core_field_name;?>]"
+                   id="<?php echo FERRET_PLUGIN_NAME . '-' .$this->options->ignore_core_field_name;?>"
+                   value="1"
+                <?php checked( '1', $value ); ?>
+            />
+        </div>
+        <?php
+    }
+    /**
      * Render the Project ID field.
      *
      * @since 1.0.0
      */
     public function project_render() {
         $value = esc_html( $this->options->get( $this->options->project_field_name ) );
+
         ?>
         <div class="control">
             <input
                 class="input"
-                name="<?php echo $this->plugin_name . '[' . $this->options->project_field_name; ?>]"
-                id="<?php echo $this->plugin_name . '-' . $this->options->project_field_name; ?>"
+                name="<?php echo FERRET_PLUGIN_NAME . '[' . $this->options->project_field_name; ?>]"
+                id="<?php echo FERRET_PLUGIN_NAME . '-' . $this->options->project_field_name; ?>"
                 type="text"
                 value="<?php echo isset( $value ) ? $value : ''; ?>"
             />
