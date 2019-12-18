@@ -2,9 +2,9 @@
 Contributors: leapspark
 Tags: sentry, debugging, logging, errors, error handling
 Requires at least: 3.0.1
-Tested up to: 5.2.2
-Stable tag: 1.2.6
-Requires PHP: 5.6
+Tested up to: 5.3.1
+Stable tag: 2.0.0
+Requires PHP: 7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,10 +19,14 @@ There are four settings that you can adjust.
 - The `DSN` - Your DSN key, this is required
 - `Project ID` - The project key, this is also required
 - `Enable JavaScript Logging` - Enable logging of JavaScript errors
+- `Ignore WP Core Errors` - Prevent sending events to Sentry that originate from WordPress core (wp-admin, wp-includes)
 - `Debug Environment` - Switch the Sentry environment to `Debug`, turning this off puts the environment to `Production`
 
 All three are accessible on the plugin settings page located in the `Settings -> Ferret Settings` page.
 
+---
+
+In the future we will add the ability to selectively ignore specific themes or plugins in a convenient way. We would also like to expose an internal API that can be used by other plugins/themes to capture errors or add context.
 
 == Installation ==
 
@@ -31,6 +35,11 @@ All three are accessible on the plugin settings page located in the `Settings ->
 1. Go to the settings page through `Settings -> Ferret Settings` and enter your Sentry DSN and Project ID
 
 == Changelog ==
+
+= 2.0.0 =
+* Complete overhaul of plugin structure
+* Now requires PHP^7.1
+* Add Sentry Unified SDK
 
 = 1.2.6 =
 * Add WordPress.org assets
