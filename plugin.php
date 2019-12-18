@@ -9,7 +9,7 @@
  * Plugin Name:       Ferret
  * Plugin URI:        https://wordpress.org/plugins/ferret
  * Description:       Reports all errors to the Sentry error logging service automatically.
- * Version:           1.2.6
+ * Version:           2.0.0
  * Author:            Aaron Arney
  * Author URI:        https://leapsparkagency.com
  * License:           GPL-2.0+
@@ -24,10 +24,10 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * == :: WHAT'S THIS? :: ==========
- * We want to use PHP 5.6 or greater. If the version isn't sufficient we show an error and then deactivate/prevent the
+ * We want to use PHP 7.1 or greater. If the version isn't sufficient we show an error and then deactivate/prevent the
  * plugin from being activated.
  */
-if ( ! version_compare( phpversion(), '5.6', '>=' ) ) {
+if ( ! version_compare( phpversion(), '7.1', '>=' ) ) {
 
     add_action( 'admin_init', function () {
         deactivate_plugins( plugin_basename( __FILE__ ) );
@@ -36,7 +36,7 @@ if ( ! version_compare( phpversion(), '5.6', '>=' ) ) {
     add_action( 'admin_notices', function () {
         ?>
         <div class="notice notice-error is-dismissible">
-            <p><?php _e( 'Ferret is not compatible with your version of PHP. You need at least PHP 5.6 or greater.',
+            <p><?php _e( 'Ferret is not compatible with your version of PHP. You need at least PHP 7.1 or greater.',
                     'Ferret' ); ?></p>
         </div>
         <?php
@@ -50,32 +50,15 @@ if ( ! version_compare( phpversion(), '5.6', '>=' ) ) {
 
     require_once __DIR__ . '/vendor/autoload.php';
 
-    define( 'FERRET_VERSION', '1.2.6' );
+    define( 'FERRET_VERSION', '2.0.0' );
+    define( 'FERRET_PLUGIN_NAME', 'ferret' );
 
-    function activate_wordpress_sentry() {
-        require_once plugin_dir_path( __FILE__ ) . 'includes/class-ferret-activator.php';
-        Ferret_Activator::activate();
-    }
+    require_once plugin_dir_path( __FILE__ ) . 'includes/functions.php';
+    require_once plugin_dir_path( __FILE__ ) . 'includes/options.php';
+    require_once plugin_dir_path( __FILE__ ) . 'includes/loader.php';
+    require_once plugin_dir_path( __FILE__ ) . 'includes/sentry-adapter.php';
+    require_once plugin_dir_path( __FILE__ ) . 'admin/admin.php';
+    require_once plugin_dir_path( __FILE__ ) . 'public/client.php';
+    require_once plugin_dir_path( __FILE__ ) . 'includes/ferret.php';
 
-    function deactivate_wordpress_sentry() {
-        require_once plugin_dir_path( __FILE__ ) . 'includes/class-ferret-deactivator.php';
-        Ferret_Deactivator::deactivate();
-    }
-
-    register_activation_hook( __FILE__, 'activate_wordpress_sentry' );
-    register_deactivation_hook( __FILE__, 'deactivate_wordpress_sentry' );
-
-    require plugin_dir_path( __FILE__ ) . 'includes/class-ferret.php';
-
-    /**
-     * Begins execution of the plugin.
-     *
-     * @since    1.0.0
-     */
-    function run_ferret() {
-        $plugin = new Ferret();
-        $plugin->run();
-    }
-
-    run_ferret();
 }
