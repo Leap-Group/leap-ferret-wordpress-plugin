@@ -10,6 +10,12 @@
  * @subpackage Ferret/public
  */
 
+namespace Ferret;
+
+if ( ! defined( 'WPINC' ) ) {
+    die;
+}
+
 /**
  * The options interface
  *
@@ -19,16 +25,7 @@
  * @subpackage Ferret/public
  * @author     Aaron Arney <aarney@leapsparkagency.com>
  */
-final class Ferret_Options {
-
-    /**
-     * The ID of this plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      string    $plugin_name    The ID of this plugin.
-     */
-    private $plugin_name;
+final class Options {
 
     /**
      * The ID of the dsn field.
@@ -67,25 +64,22 @@ final class Ferret_Options {
     public $environment_field_name = 'environment';
 
     /**
-     * Initialize the class and set its properties.
-     *
-     * @since   1.0.0
-     * @param   string  $plugin_name    The name of the plugin.
+     * @since 2.0.0
+     * @access public
+     * @var string
      */
-    public function __construct( $plugin_name ) {
-        $this->plugin_name = $plugin_name;
-    }
+    public $ignore_core_field_name = 'ignore_core';
 
     /**
      * Get a value from the options array
      *
      * @since   1.0.0
      * @param   string  $key    The key of the option.
-     * @return  string | false
+     * @return  string | null
      */
-    public function get( $key ) {
-        $options = get_option( $this->plugin_name );
+    public static function get( $key ) {
+        $options = get_option( FERRET_PLUGIN_NAME );
 
-        return isset( $options[ $key ] ) ? $options[ $key ] : false;
+        return $options[ $key ] ?? null;
     }
 }
