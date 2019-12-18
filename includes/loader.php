@@ -9,6 +9,11 @@
  * @package     Ferret
  * @subpackage  Ferret/includes
  */
+namespace Ferret;
+
+if ( ! defined( 'WPINC' ) ) {
+    die;
+}
 
 /**
  * Register all actions and filters for the plugin.
@@ -21,7 +26,7 @@
  * @subpackage Ferret/includes
  * @author     Aaron Arney <aarney@leapsparkagency.com>
  */
-class Ferret_Loader {
+final class Loader {
 
     /**
      * The array of actions registered with WordPress.
