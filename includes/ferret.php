@@ -6,6 +6,8 @@ if ( ! defined( 'WPINC' ) ) {
     die;
 }
 
+load_theme_textdomain( FERRET_PLUGIN_NAME, FERRET_PLUGIN_PATH . '/languages' );
+
 $options = new Options();
 $loader = new Loader();
 
