@@ -52,13 +52,14 @@ if ( ! version_compare( phpversion(), '7.1', '>=' ) ) {
 
     define( 'FERRET_VERSION', '2.0.0' );
     define( 'FERRET_PLUGIN_NAME', 'ferret' );
+    define( 'FERRET_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
-    require_once plugin_dir_path( __FILE__ ) . 'includes/functions.php';
-    require_once plugin_dir_path( __FILE__ ) . 'includes/options.php';
-    require_once plugin_dir_path( __FILE__ ) . 'includes/loader.php';
-    require_once plugin_dir_path( __FILE__ ) . 'includes/sentry-adapter.php';
-    require_once plugin_dir_path( __FILE__ ) . 'admin/admin.php';
-    require_once plugin_dir_path( __FILE__ ) . 'public/client.php';
-    require_once plugin_dir_path( __FILE__ ) . 'includes/ferret.php';
+    require_once FERRET_PLUGIN_PATH . 'includes/functions.php';
+    require_once FERRET_PLUGIN_PATH . 'includes/options.php';
+    require_once FERRET_PLUGIN_PATH . 'includes/loader.php';
+    require_once FERRET_PLUGIN_PATH . 'includes/sentry-adapter.php';
+    require_once FERRET_PLUGIN_PATH . 'admin/admin.php';
+    require_once FERRET_PLUGIN_PATH . 'public/client.php';
+    require_once FERRET_PLUGIN_PATH . 'includes/ferret.php';
 
 }
