@@ -42,7 +42,7 @@ final class Client {
             return;
         }
 
-        wp_enqueue_script( FERRET_PLUGIN_NAME, 'https://browser.sentry-cdn.com/4.4.2/bundle.min.js',
+        wp_enqueue_script( FERRET_PLUGIN_NAME, 'https://browser.sentry-cdn.com/5.14.1/bundle.min.js',
             array(), FERRET_VERSION, false );
 
         /**
