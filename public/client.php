@@ -52,7 +52,7 @@ final class Client {
          */
         add_filter( 'script_loader_tag', function ( $tag, $handle, $src ) {
             if ( FERRET_PLUGIN_NAME === $handle ) {
-                $tag = '<script src=' . $src . '" crossorigin="anonymous"></script>';
+                $tag = '<script src="' . $src . '" crossorigin="anonymous"></script>';
             }
             return $tag;
         }, 10, 3 );
