@@ -2,8 +2,8 @@
 Contributors: leapspark
 Tags: sentry, debugging, logging, errors, error handling
 Requires at least: 3.0.1
-Tested up to: 5.3.1
-Stable tag: 2.0.1
+Tested up to: 5.3.2
+Stable tag: 2.1.0
 Requires PHP: 7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -35,6 +35,10 @@ In the future we will add the ability to selectively ignore specific themes or p
 1. Go to the settings page through `Settings -> Ferret Settings` and enter your Sentry DSN and Project ID
 
 == Changelog ==
+
+= 2.1.0 =
+* Fix JavaScript script element tag
+* Upgrade JavaScript SDK to 5.14
 
 = 2.0.0 =
 * Complete overhaul of plugin structure
